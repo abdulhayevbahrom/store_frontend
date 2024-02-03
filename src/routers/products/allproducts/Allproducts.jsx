@@ -22,7 +22,7 @@ function Allproducts() {
 
   function deleteOne(id) {
     axios
-      .delete(`/pro/delete/:${id}`)
+      .delete(`/pro/delete/${id}`)
       .then((res) => setData(res))
       .catch((err) => console.log(err));
   }

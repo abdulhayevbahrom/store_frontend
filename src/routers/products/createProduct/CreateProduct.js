@@ -36,7 +36,7 @@ const CreateProduct = () => {
     data.orgPrice = +data.orgPrice;
     data.quantity = +data.quantity;
     data.barcode = barcode;
-    console.log(categoryId);
+
     setLoader(true);
     axios
       .post("/pro/create", data)
@@ -98,11 +98,15 @@ const CreateProduct = () => {
                   )}
                   {!addCategory ? (
                     <select name="category">
-                      {categoryData?.map((i, inx) => (
-                        <option key={inx} value={i?.category}>
-                          {i?.category}
-                        </option>
-                      ))}
+                      {categoryData?.length ? (
+                        categoryData?.map((i, inx) => (
+                          <option key={inx} value={i?.category}>
+                            {i?.category}
+                          </option>
+                        ))
+                      ) : (
+                        <option>Hozircha category yo'q</option>
+                      )}
                     </select>
                   ) : (
                     <input

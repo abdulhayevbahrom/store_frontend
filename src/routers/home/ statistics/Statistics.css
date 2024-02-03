@@ -45,8 +45,7 @@
   padding: 20px 30px;
   z-index: 1;
   border: 1px solid #fff;
-  box-shadow: 0 0 3px #000, 0 0px 3px #000, 0 7px 10px #00000053,
-    0 9px 15px #00000053;
+  box-shadow: 0 0 3px #000;
   background: #00000011;
   border-radius: 5px;
   display: flex;
