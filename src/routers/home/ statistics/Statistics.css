@@ -1,17 +1,17 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;800;900&display=swap);
+
 .statistics_page {
   width: 100%;
-  height: calc(100vh - 60px);
   display: flex;
   flex-direction: column;
-  padding: 2%;
   gap: 10px;
   background: var(--textColorLight);
 }
 
 .statistics_container {
   width: 100%;
-  height: calc(100% - 80px);
-  border-radius: 10px;
+  height: calc(100vh - 60px);
+  padding: 40px 0;
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, auto);
@@ -41,53 +41,31 @@
   background-color: rgb(246, 213, 26);
 }
 
-.statistics_container .box::after {
-  content: "";
-  position: absolute;
-  width: 80px;
-  height: 100%;
-  background: rgba(251, 250, 250, 0.045);
-  transform: translateX(-670px) skewX(30deg);
-  transition: 0.75s ease-in-out;
-}
-
-/* .statistics_container .box:hover::after {
-  transform: translateX(670px) skewX(30deg);
-} */
-
-/* .statistics_container .shadow {
-  box-shadow: inset -5px -5px 5px rgba(255, 255, 255, 0.45),
-    inset 5px 5px 5px rgba(0, 0, 0, 0.1),
-    inset 5px 5px 5px rgba(255, 255, 255, 0.45),
-    inset -5px -5px 5px rgba(0, 0, 0, 0.1);
-} */
-
 .statistics_container .box .statistics_card {
   padding: 20px 30px;
   z-index: 1;
-  background: #110136;
-  border-radius: 10px;
+  border: 1px solid #fff;
+  box-shadow: 0 0 3px #000, 0 0px 3px #000, 0 7px 10px #00000053,
+    0 9px 15px #00000053;
+  background: #00000011;
+  border-radius: 5px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   gap: 5px;
-  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.2),
-    5px 5px 10px rgba(0, 0, 0, 0.1),
-    inset -5px -5px 5px rgba(255, 255, 255, 0.2),
-    inset -5px -5px 5px rgba(0, 0, 0, 0.1);
 }
 
-.statistics_container .box .statistics_card b {
+.statistics_container .box .statistics_card p {
   color: #fff;
-  font-size: 2em;
+  font-size: 3.5em;
   letter-spacing: 1.5px;
 }
 
 .statistics_container .box .statistics_card span {
   color: #fff;
-  font-size: 1.5em;
-  font-family: cursive;
+  font-size: 1.2em;
+  font-family: "Roboto", sans-serif;
   letter-spacing: 1.2px;
 }
 
@@ -99,20 +77,8 @@
   }
 }
 
-@media screen and (max-width: 800px) {
-  .statistics_header h2 {
-    font-size: 2em;
-  }
-}
-
 @media screen and (max-width: 600px) {
-  .statistics_header {
-    height: 60px;
-  }
-  .statistics_header h2 {
-    font-size: 1.8em;
-  }
-  .statistics_container .box .statistics_card b {
+  .statistics_container .box .statistics_card p {
     font-size: 1.5em;
   }
 
