@@ -52,10 +52,10 @@ function Navbar() {
           </div>
           {/*  NAVBAR LINKS */}
           <div className="nav__links">
-            <NavLink to={"/"}>Daromad</NavLink>
+            {/* <NavLink to={"/"}>Daromad</NavLink>
             <NavLink to={"/product"}>Mahsulot</NavLink>
             <NavLink to={"/nasiya"}>Nasiya</NavLink>
-            <NavLink to={"/cart"}>Cart</NavLink>
+            <NavLink to={"/cart"}>Cart</NavLink> */}
             <div className="nav__btns">
               <PiBarcodeBold
                 title="Shtrix kodni skanerlang"
@@ -85,7 +85,7 @@ function Navbar() {
         </NavLink>
         <button>
           <FaRegUser />
-          Profil
+          mahsulot qo'shish
         </button>
       </div>
     </header>

@@ -40,7 +40,7 @@ function Cart() {
     let warning = window.confirm("Savatni bo'shatishni xohlaysizmi?");
     if (warning) {
       dispatch(ClearCart());
-      toast.success("Savat o'bo'shatildi", {
+      toast.success("Savat bo'shatildi", {
         position: "top-center",
         hideProgressBar: true,
         autoClose: 2000,
