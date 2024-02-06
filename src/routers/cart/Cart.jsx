@@ -92,23 +92,25 @@ function Cart() {
                 <td>{i?.size}</td>
                 <td>{i?.color}</td>
                 <td>
-                  <button
+                  <button className="plus_minus"
                     disabled={i?.quantity == 1}
                     onClick={() => decrementCart(i?._id)}
                   >
                     <FaMinus />
                   </button>
                   <span>{i.quantity}</span>
-                  <button onClick={() => incrementCart(i?._id)}>
+                  <button className="plus_minus" onClick={() => incrementCart(i?._id)}>
                     <FaPlus />
                   </button>
                 </td>
                 <td>{i?.totalPrice}</td>
                 <td>
-                  <button onClick={() => handleDelete(i?._id)}>delete</button>
+                  <button className="delete_cart" onClick={() => handleDelete(i?._id)}>delete</button>
                 </td>
               </tr>
             ))}
+          
+
           </tbody>
           <tfoot>
             <tr>

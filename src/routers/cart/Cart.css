@@ -33,3 +33,16 @@ caption{
   color: rgb(29, 35, 33);
   font-size: 20px;
 }
+
+.plus_minus{
+  background-color: transparent;
+  font-size: 17px;
+}
+
+.delete_cart{
+  padding: 5px 10px;
+  background-color: red !important;
+  color: #fff;
+  border-radius: 5px;
+}
+
