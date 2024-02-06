@@ -5,14 +5,15 @@
   z-index: 100;
   width: 100%;
   min-height: 100vh;
-  background: azure;
+  background: rgba(50, 50, 50, 0.608);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(2px);
 }
 .scanned {
-  width: 400px !important;
+  max-width: 400px !important;
   height: 400px !important;
   border-radius: 10px;
   display: flex;
@@ -25,18 +26,45 @@
   background: var(--bgColor) !important;
   font-size: 16px;
   color: #fff;
+  margin: auto;
+}
+.scanned span {
+  width: 100%;
 }
 .scanned p {
   font-weight: bold;
   font-size: 20px;
   text-align: center;
 }
-.scanned input {
-  background: transparent;
-  appearance: none;
-  -moz-appearance: none;
+.scanned input:not(.totalqnty, .totalprice) {
+  background: white;
+  color: #333;
+  text-indent: 5px;
+}
+.totalqnty,
+.totalprice {
+  pointer-events: none;
 }
 
+.scanned input {
+  font-size: 16px;
+  width: 50px;
+  height: 30px;
+  border-radius: 3px;
+  background: transparent;
+  color: #fff;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.scanned :where(div, span) {
+  display: flex;
+  justify-content: space-between;
+}
 .scanned button {
   width: 50%;
   height: 40px;
@@ -46,4 +74,18 @@
   border-radius: 20px;
   font-size: 18px;
   font-weight: bold;
+}
+.scanned button:hover {
+  background: rgb(52, 139, 225);
+}
+.barClose {
+  width: 100%;
+  font-size: 25px;
+  display: flex;
+  padding-top: 5px;
+  color: #fff;
+}
+.scanned__btns {
+  display: flex;
+  gap: 7px;
 }

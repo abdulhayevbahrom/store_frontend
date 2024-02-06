@@ -21,6 +21,7 @@ function Allproducts() {
   }
 
   function deleteOne(id) {
+    console.log(id);
     axios
       .delete(`/pro/delete/:${id}`)
       .then((res) => setData(res))

@@ -45,6 +45,7 @@ const CreateProduct = () => {
           setLoader(false);
           setCategoryId(barcode);
           setOpenBarcode(true);
+          document.create.reset();
         }
       })
       .catch((err) => console.log(err));
@@ -60,7 +61,7 @@ const CreateProduct = () => {
           <h2>Mahsulot qo'shish</h2>
         </div>
         <div className="create_product_form_container">
-          <form onSubmit={createPro}>
+          <form name="create" onSubmit={createPro}>
             <div className="form_container">
               <input required type="text" placeholder="Nomi" name="title" />
               <input type="text" placeholder="O'lchami" name="size" />

@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import "./barCodeReader.css";
 import BarCodeScan from "./barCodeScan/BarCodeScan";
+import { IoMdClose } from "react-icons/io";
 import axios from "../../api";
 import { AddToCart } from "../../redux/cart";
 
-function BarCodeReader() {
+function BarCodeReader({ setOpenQrScanner }) {
   const dispatch = useDispatch();
   let [data, setData] = useState(null);
   let [id, setId] = useState("");
@@ -49,6 +50,7 @@ function BarCodeReader() {
 
   return (
     <div className="barCodeReader">
+      <IoMdClose className="barClose" />
       {!data ? (
         <BarCodeScan
           fps={10}
@@ -59,8 +61,10 @@ function BarCodeReader() {
         />
       ) : (
         <div className="scanned">
-          <p>nomi:{data?.title}</p>
-          <span>asl narxi:{data?.orgPrice}</span>
+          <p>{data?.title}</p>
+          <span>
+            asl narxi: <b>{data?.orgPrice}</b>
+          </span>
           <div>
             <label>Sotiladigan narxi:</label>
             <input
@@ -74,12 +78,12 @@ function BarCodeReader() {
           </div>
           <div>
             <label>Bazadagi miqdori:</label>
-            <input type="text" value={totalquantity} />
+            <input className="totalqnty" type="text" value={totalquantity} />
           </div>
-          <span>kategoriyasi:{data?.category}</span>
           <div>
             <label>Sotiladigan miqdori:</label>
             <input
+              min={1}
               type="number"
               value={quantity}
               onChange={(e) => {
@@ -93,10 +97,13 @@ function BarCodeReader() {
               type="text"
               value={totalPrice}
               onChange={(e) => setTotalPrice(e.target.value)}
+              className="totalprice"
             />
           </div>
-
-          <button onClick={() => addToCart(data)}>Qo'shish</button>
+          <div className="scanned__btns">
+            <button onClick={() => setData("")}>bekor qilish</button>
+            <button onClick={() => addToCart(data)}>Qo'shish</button>
+          </div>
         </div>
       )}
       <h1>{id}</h1>
