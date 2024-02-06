@@ -3,10 +3,6 @@
 .create_product_page {
   width: 100%;
   background: cornflowerblue;
-  background: url(https://i.pinimg.com/736x/f3/74/94/f37494d7f2975c6ce502f4931bbfea81.jpg)
-    center no-repeat;
-  background-blend-mode: saturation;
-  background-size: cover;
   padding: 50px 10px;
 }
 
@@ -47,6 +43,7 @@
 .create_product_container form {
   display: grid;
   grid-template-columns: repeat(1, auto);
+  user-select: none;
 }
 
 .form_container {
@@ -59,12 +56,18 @@
 
 .form_container input {
   height: 45px;
-  border-radius: 10px;
+  border-radius: 5px;
   font-size: 16px;
   text-indent: 10px;
   font-family: "Roboto", sans-serif;
   background: #fffaff;
 }
+
+.form_container input[type="number"]::-webkit-inner-spin-button,
+.form_container input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
 .select__box {
   position: relative;
   width: 100%;
@@ -73,7 +76,7 @@
   background: #fffaff;
   display: flex;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .select__box select {
@@ -119,14 +122,14 @@
 .form_btn button {
   height: 100%;
   padding: 5px 25px;
-  width: 32.5%;
+  width: 31.5%;
   font-size: 1.3em;
   font-family: "Roboto", sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
 }

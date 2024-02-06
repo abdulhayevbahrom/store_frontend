@@ -3,6 +3,7 @@
   padding: 60px 0;
   background: #f1efef;
   overflow-x: auto;
+  /* position: relative; */
 }
 
 .fl-table {
