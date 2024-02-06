@@ -4,6 +4,9 @@ import Layout from "./layout";
 import NasiyaCart from "./routers/nasiya/NasiyaCart";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { ProductController } from "./controller/ProductController";
+import Allproducts from "./routers/products/allproducts/Allproducts";
+import CreateProduct from "./routers/products/createProduct/CreateProduct";
 
 function Router() {
   return (
@@ -17,6 +20,12 @@ function Router() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/nasiya" element={<NasiyaCart />} />
             <Route path="/product" element={<Product />} />
+          </Route>
+        </Route>
+        <Route element={<ProductController />}>
+          <Route path="/product" element={<Product />}>
+            <Route path="/product" element={<CreateProduct />} />
+            <Route path="/product/allProduct" element={<Allproducts />} />
           </Route>
         </Route>
       </Routes>
