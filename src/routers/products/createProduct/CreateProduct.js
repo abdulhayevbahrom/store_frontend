@@ -56,9 +56,6 @@ const CreateProduct = () => {
       )}
       <div className="container">
         <div className="create_product_container">
-          <div className="create_product_header">
-            <h2>Mahsulot qo'shish</h2>
-          </div>
           <div className="create_product_form_container">
             <form onSubmit={createPro}>
               <div className="form_container">
