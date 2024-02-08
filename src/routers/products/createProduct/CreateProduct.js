@@ -34,12 +34,6 @@ const CreateProduct = () => {
     setCategoryData(data?.innerData);
   }, [data]);
 
-  useEffect(() => {
-    if (error) {
-      toast.error("Malumot toqilmadi");
-    }
-  }, [error]);
-
   const createPro = async (e) => {
     e.preventDefault();
     let newData = new FormData(e.target);
