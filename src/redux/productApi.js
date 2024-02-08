@@ -19,10 +19,7 @@ export const productsApi = createApi({
 
       invalidatesTags: [{ type: "Posts", id: "LIST" }],
     }),
-    getPost: builder.query({
-      query: (id) => `/pro/update/${id}`,
-      providesTags: (result, error, id) => [{ type: "Posts", id }],
-    }),
+
     updatePost: builder.mutation({
       query(data) {
         const { updateData } = data;
@@ -52,5 +49,4 @@ export const {
   useUpdatePostMutation,
   useDeletePostMutation,
   useAddPostMutation,
-  useGetPostQuery,
 } = productsApi;

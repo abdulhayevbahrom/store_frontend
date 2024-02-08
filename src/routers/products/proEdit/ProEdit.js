@@ -2,7 +2,6 @@ import React, { memo, useEffect, useState } from "react";
 import "./ProEdit.css";
 import { MdClose } from "react-icons/md";
 import { FiPlus, FiMinus } from "react-icons/fi";
-import axios from "../../../api/index";
 import { useUpdatePostMutation } from "../../../redux/productApi";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -55,23 +54,6 @@ const ProEdit = ({ close, data }) => {
       title,
       quantity: count,
     };
-
-    // axios
-    //   .put(`/pro/update/${data?._id}`, proData)
-    //   .then((res) => {
-    //     console.log(res);
-    //     if (res?.data?.status) {
-    //       toast.success("Muofaqiyatli o'zgartirish kiritildi", {
-    //         autoClose: 2000,
-    //         closeButton: false,
-    //         hideProgressBar: true,
-    //       });
-    //       return setTimeout(() => {
-    //         close(false);
-    //       }, 3000);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
 
     await updatePost({ _id: data?._id, updateData: proData })
       .then((res) => {

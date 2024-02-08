@@ -5,9 +5,15 @@ import BtnLoader from "../../../components/btnLoader/BtnLoader";
 import axios from "../../../api";
 import { SiAddthis } from "react-icons/si";
 import { MdArrowDropDownCircle } from "react-icons/md";
-import { useAddPostMutation } from "../../../redux/productApi";
+import {
+  useAddPostMutation,
+  useGetAllProductsQuery,
+} from "../../../redux/productApi";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreateProduct = () => {
+  const { data, error } = useGetAllProductsQuery();
+
   const [addPost] = useAddPostMutation();
   const [loader, setLoader] = useState(false);
   const [openBarcode, setOpenBarcode] = useState(false);
@@ -25,11 +31,15 @@ const CreateProduct = () => {
   let barcode = generateUniqueNumber();
 
   useEffect(() => {
-    axios
-      .get("/pro/allProducts")
-      .then((res) => setCategoryData(res.data?.innerData))
-      .catch((err) => console.log(err));
-  }, []);
+    setCategoryData(data?.innerData);
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Malumot toqilmadi");
+    }
+  }, [error]);
+
   const createPro = async (e) => {
     e.preventDefault();
     let newData = new FormData(e.target);
@@ -53,6 +63,7 @@ const CreateProduct = () => {
   };
   return (
     <div className="create_product_page">
+      <ToastContainer />
       {openBarcode && (
         <Code text={categoryId} setOpenBarcode={setOpenBarcode} />
       )}

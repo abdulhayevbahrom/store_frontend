@@ -5,7 +5,6 @@ import { FaTrash, FaEdit, FaMinus } from "react-icons/fa";
 import ProEdit from "../proEdit/ProEdit";
 import {
   useGetAllProductsQuery,
-  useGetPostQuery,
   useUpdatePostMutation,
 } from "../../../redux/productApi";
 import { toast, ToastContainer } from "react-toastify";
@@ -43,15 +42,6 @@ function Allproducts() {
   }
 
   async function proEdit(data) {
-    // axios
-    //   .put(`/pro/update/${id}`)
-    //   .then((res) => {
-    //     if (res?.data?.status) {
-    //       setUpdateData(res?.data?.innerData);
-    //       setOpenProEdit(true);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err));
     await updatePost(data)
       .then((res) => {
         if (res?.data?.status) {
