@@ -1,43 +1,67 @@
 import "./allProducts.css";
 import { useState, useEffect, memo } from "react";
 import axios from "../../../api";
-import Loader from "../../../components/loader/Loader";
 import { FaTrash, FaEdit, FaMinus } from "react-icons/fa";
 import ProEdit from "../proEdit/ProEdit";
+import {
+  useGetAllProductsQuery,
+  useUpdatePostMutation,
+} from "../../../redux/productApi";
+import { toast, ToastContainer } from "react-toastify";
+
+import emptyData from "../../../assets/notFoundImg.jpeg";
+
 function Allproducts() {
+  const { data, error } = useGetAllProductsQuery();
+  const [updatePost] = useUpdatePostMutation();
+
   const [updateData, setUpdateData] = useState("");
   const [openProEdit, setOpenProEdit] = useState(false);
-  let [data, setData] = useState(null);
-  let [loading, setLoading] = useState(true);
+  let [dataItem, setDataItem] = useState(null);
+
   useEffect(() => {
-    axios
-      .get("/pro/allProducts")
-      .then((res) => setData(res?.data?.innerData))
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
-  }, []);
+    setDataItem(data?.innerData);
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Malumot toqilmadi");
+    }
+  }, [error]);
+
   function deleteAll() {
     axios
       .delete("/pro/deleteAllData")
-      .then((res) => setData(res))
+      .then((res) => setDataItem(res))
       .catch((err) => console.log(err));
   }
 
   function deleteOne(id) {
     axios
       .delete(`/pro/delete/${id}`)
-      .then((res) => setData(res))
+      .then((res) => setDataItem(res))
       .catch((err) => console.log(err));
   }
 
-  function proEdit(id) {
-    axios
-      .put(`/pro/update/${id}`)
+  async function proEdit(data) {
+    await updatePost(data)
       .then((res) => {
-        console.log(res);
         if (res?.data?.status) {
           setUpdateData(res?.data?.innerData);
           setOpenProEdit(true);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function SearchValue(e) {
+    let value = e.trimStart();
+
+    axios
+      .post("/pro/search", { value })
+      .then((res) => {
+        if (res?.data?.status === "success") {
+          setDataItem(res?.data?.innerData);
         }
       })
       .catch((err) => console.log(err));
@@ -50,12 +74,18 @@ function Allproducts() {
   return (
     <div className="allproducts">
       {openProEdit && <ProEdit data={updateData} close={setOpenProEdit} />}
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="container">
+
+      <div className="container">
+        <ToastContainer />
+        {dataItem?.length ? (
           <table className="fl-table">
-            <caption>Barcha mahsulotlar</caption>
+            <caption>
+              <input
+                type="text"
+                placeholder="Malumotlarni qidirish"
+                onChange={(e) => SearchValue(e.target.value)}
+              />
+            </caption>
             <thead>
               <tr>
                 <th>#</th>
@@ -75,19 +105,19 @@ function Allproducts() {
               </tr>
             </thead>
             <tbody>
-              {data?.map((i, inx) => (
+              {dataItem?.map((i, inx) => (
                 <tr key={inx}>
                   <td>{inx + 1}</td>
-                  <td>{i?.title}</td>
-                  <td>{i?.orgPrice}</td>
-                  <td>{i?.price}</td>
-                  <td>{i?.quantity}</td>
-                  <td>{i?.category}</td>
+                  <td>{i?.title ? i?.title : <FaMinus />}</td>
+                  <td>{i?.orgPrice ? i?.orgPrice : "0"}</td>
+                  <td>{i?.price ? i?.price : "0"}</td>
+                  <td>{i?.quantity ? i?.quantity : "0"}</td>
+                  <td>{i?.category ? i?.category : <FaMinus />}</td>
                   <td>{i?.subcategory ? i?.subcategory : <FaMinus />}</td>
-                  <td>{i?.size}</td>
-                  <td>{i?.brand}</td>
+                  <td>{i?.size ? i?.size : "0"}</td>
+                  <td>{i?.brand ? i?.brand : <FaMinus />}</td>
                   <td>{i?.color ? i?.color : <FaMinus />}</td>
-                  <td onClick={() => proEdit(i?._id)}>
+                  <td onClick={() => proEdit(i)}>
                     <FaEdit />
                   </td>
                   <td onClick={() => deleteOne(i?._id)}>
@@ -97,8 +127,12 @@ function Allproducts() {
               ))}
             </tbody>
           </table>
-        </div>
-      )}
+        ) : (
+          <div className="img_container">
+            <img src={emptyData} alt="" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
-import { Auth, Cart, Home, Login, Product } from "./routers";
+import { Auth, Cart, Home, Login } from "./routers";
+import Product from "./routers/Product";
 import Layout from "./layout";
 import NasiyaCart from "./routers/nasiya/NasiyaCart";
 import "react-toastify/dist/ReactToastify.css";

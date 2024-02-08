@@ -1,8 +1,11 @@
-import { NavLink, Outlet } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar";
-import "./Product.css";
+import React from "react";
+import "./products/Product.css";
+import Navbar from "../components/navbar/Navbar";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
 
-function products() {
+const Product = () => {
+  let location = useLocation();
+
   return (
     <div className="products">
       <div className="container">
@@ -10,10 +13,16 @@ function products() {
         <div className="products_container">
           <div className="product_header_links">
             <ul>
-              <li>
+              <li
+                className={location.pathname === "/product" ? "li_active" : ""}
+              >
                 <NavLink to="/product">Mahsulot qo'shish</NavLink>
               </li>
-              <li>
+              <li
+                className={
+                  location.pathname === "/product/allProduct" ? "li_active" : ""
+                }
+              >
                 <NavLink to="/product/allProduct">Barcha mahsulotlar</NavLink>
               </li>
             </ul>
@@ -25,6 +34,6 @@ function products() {
       </div>
     </div>
   );
-}
+};
 
-export default products;
+export default Product;

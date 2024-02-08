@@ -5,8 +5,16 @@ import BtnLoader from "../../../components/btnLoader/BtnLoader";
 import axios from "../../../api";
 import { SiAddthis } from "react-icons/si";
 import { MdArrowDropDownCircle } from "react-icons/md";
+import {
+  useAddPostMutation,
+  useGetAllProductsQuery,
+} from "../../../redux/productApi";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreateProduct = () => {
+  const { data, error } = useGetAllProductsQuery();
+
+  const [addPost] = useAddPostMutation();
   const [loader, setLoader] = useState(false);
   const [openBarcode, setOpenBarcode] = useState(false);
   const [categoryData, setCategoryData] = useState(null);
@@ -23,12 +31,10 @@ const CreateProduct = () => {
   let barcode = generateUniqueNumber();
 
   useEffect(() => {
-    axios
-      .get("/pro/allProducts")
-      .then((res) => setCategoryData(res.data?.innerData))
-      .catch((err) => console.log(err));
-  }, []);
-  const createPro = (e) => {
+    setCategoryData(data?.innerData);
+  }, [data]);
+
+  const createPro = async (e) => {
     e.preventDefault();
     let newData = new FormData(e.target);
     let data = Object.fromEntries(newData);
@@ -38,8 +44,8 @@ const CreateProduct = () => {
     data.barcode = barcode;
 
     setLoader(true);
-    axios
-      .post("/pro/create", data)
+
+    await addPost(data)
       .then((res) => {
         if (res.data?.innerData?.barcode) {
           setLoader(false);
@@ -51,14 +57,12 @@ const CreateProduct = () => {
   };
   return (
     <div className="create_product_page">
+      <ToastContainer />
       {openBarcode && (
         <Code text={categoryId} setOpenBarcode={setOpenBarcode} />
       )}
       <div className="container">
         <div className="create_product_container">
-          <div className="create_product_header">
-            <h2>Mahsulot qo'shish</h2>
-          </div>
           <div className="create_product_form_container">
             <form onSubmit={createPro}>
               <div className="form_container">
