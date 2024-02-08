@@ -35,7 +35,7 @@
 }
 
 .product_header_links ul li.li_active {
-  background: cornflowerblue;
+  background: var(--bgColor);
   border-bottom: 1px solid #fff;
 }
 

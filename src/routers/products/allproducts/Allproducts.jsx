@@ -1,30 +1,32 @@
 import "./allProducts.css";
 import { useState, useEffect, memo } from "react";
 import axios from "../../../api";
-import Loader from "../../../components/loader/Loader";
 import { FaTrash, FaEdit, FaMinus } from "react-icons/fa";
 import ProEdit from "../proEdit/ProEdit";
+import { useGetAllProductsQuery } from "../../../redux/productApi";
+
 function Allproducts() {
+  const { data } = useGetAllProductsQuery();
+
   const [updateData, setUpdateData] = useState("");
   const [openProEdit, setOpenProEdit] = useState(false);
-  let [data, setData] = useState(null);
+  let [dataItem, setDataItem] = useState(null);
+
   useEffect(() => {
-    axios
-      .get("/pro/allProducts")
-      .then((res) => setData(res?.data?.innerData))
-      .catch((err) => console.log(err));
-  }, []);
+    setDataItem(data?.innerData);
+  }, [data]);
+
   function deleteAll() {
     axios
       .delete("/pro/deleteAllData")
-      .then((res) => setData(res))
+      .then((res) => setDataItem(res))
       .catch((err) => console.log(err));
   }
 
   function deleteOne(id) {
     axios
       .delete(`/pro/delete/${id}`)
-      .then((res) => setData(res))
+      .then((res) => setDataItem(res))
       .catch((err) => console.log(err));
   }
 
@@ -41,6 +43,19 @@ function Allproducts() {
       .catch((err) => console.log(err));
   }
 
+  function SearchValue(e) {
+    let value = e.trimStart();
+
+    axios
+      .post("/pro/search", { value })
+      .then((res) => {
+        if (res?.data?.status === "success") {
+          setDataItem(res?.data?.innerData);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
   openProEdit
     ? (document.body.style.overflow = "hidden")
     : (document.body.style.overflow = "auto");
@@ -51,6 +66,13 @@ function Allproducts() {
 
       <div className="container">
         <table className="fl-table">
+          <caption>
+            <input
+              type="text"
+              placeholder="Malumotlarni qidirish"
+              onChange={(e) => SearchValue(e.target.value)}
+            />
+          </caption>
           <thead>
             <tr>
               <th>#</th>
@@ -70,7 +92,7 @@ function Allproducts() {
             </tr>
           </thead>
           <tbody>
-            {data?.map((i, inx) => (
+            {dataItem?.map((i, inx) => (
               <tr key={inx}>
                 <td>{inx + 1}</td>
                 <td>{i?.title ? i?.title : <FaMinus />}</td>

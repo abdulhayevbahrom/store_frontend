@@ -39,9 +39,9 @@ const ProEdit = ({ close, data }) => {
     setCount(count - 1);
   };
 
-  const inputQuantity = (e) => {
-    let quantity = e.trimStart();
-  };
+  // const inputQuantity = (e) => {
+  //   let quantity = e.trimStart();
+  // };
 
   const proFormData = (e) => {
     e.preventDefault();
@@ -166,7 +166,8 @@ const ProEdit = ({ close, data }) => {
                     </div>
                   </div>
                   <input
-                    onChange={(e) => inputQuantity(e.target.value)}
+                    value={quantity}
+                    onChange={(e) => setQuantity(e.target.value)}
                     placeholder="Miqdor qoshish"
                     type="text"
                   />
