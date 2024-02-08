@@ -5,8 +5,10 @@ import BtnLoader from "../../../components/btnLoader/BtnLoader";
 import axios from "../../../api";
 import { SiAddthis } from "react-icons/si";
 import { MdArrowDropDownCircle } from "react-icons/md";
+import { useAddPostMutation } from "../../../redux/productApi";
 
 const CreateProduct = () => {
+  const [addPost] = useAddPostMutation();
   const [loader, setLoader] = useState(false);
   const [openBarcode, setOpenBarcode] = useState(false);
   const [categoryData, setCategoryData] = useState(null);
@@ -28,7 +30,7 @@ const CreateProduct = () => {
       .then((res) => setCategoryData(res.data?.innerData))
       .catch((err) => console.log(err));
   }, []);
-  const createPro = (e) => {
+  const createPro = async (e) => {
     e.preventDefault();
     let newData = new FormData(e.target);
     let data = Object.fromEntries(newData);
@@ -38,8 +40,8 @@ const CreateProduct = () => {
     data.barcode = barcode;
 
     setLoader(true);
-    axios
-      .post("/pro/create", data)
+
+    await addPost(data)
       .then((res) => {
         if (res.data?.innerData?.barcode) {
           setLoader(false);

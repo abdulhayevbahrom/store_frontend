@@ -3,10 +3,16 @@ import { useState, useEffect, memo } from "react";
 import axios from "../../../api";
 import { FaTrash, FaEdit, FaMinus } from "react-icons/fa";
 import ProEdit from "../proEdit/ProEdit";
-import { useGetAllProductsQuery } from "../../../redux/productApi";
+import {
+  useGetAllProductsQuery,
+  useGetPostQuery,
+  useUpdatePostMutation,
+} from "../../../redux/productApi";
+import { toast, ToastContainer } from "react-toastify";
 
 function Allproducts() {
-  const { data } = useGetAllProductsQuery();
+  const { data, error } = useGetAllProductsQuery();
+  const [updatePost] = useUpdatePostMutation();
 
   const [updateData, setUpdateData] = useState("");
   const [openProEdit, setOpenProEdit] = useState(false);
@@ -15,6 +21,12 @@ function Allproducts() {
   useEffect(() => {
     setDataItem(data?.innerData);
   }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Malumot toqilmadi");
+    }
+  }, [error]);
 
   function deleteAll() {
     axios
@@ -30,11 +42,18 @@ function Allproducts() {
       .catch((err) => console.log(err));
   }
 
-  function proEdit(id) {
-    axios
-      .put(`/pro/update/${id}`)
+  async function proEdit(data) {
+    // axios
+    //   .put(`/pro/update/${id}`)
+    //   .then((res) => {
+    //     if (res?.data?.status) {
+    //       setUpdateData(res?.data?.innerData);
+    //       setOpenProEdit(true);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+    await updatePost(data)
       .then((res) => {
-        console.log(res);
         if (res?.data?.status) {
           setUpdateData(res?.data?.innerData);
           setOpenProEdit(true);
@@ -65,6 +84,7 @@ function Allproducts() {
       {openProEdit && <ProEdit data={updateData} close={setOpenProEdit} />}
 
       <div className="container">
+        <ToastContainer />
         <table className="fl-table">
           <caption>
             <input
@@ -104,7 +124,7 @@ function Allproducts() {
                 <td>{i?.size ? i?.size : "0"}</td>
                 <td>{i?.brand ? i?.brand : <FaMinus />}</td>
                 <td>{i?.color ? i?.color : <FaMinus />}</td>
-                <td onClick={() => proEdit(i?._id)}>
+                <td onClick={() => proEdit(i)}>
                   <FaEdit />
                 </td>
                 <td onClick={() => deleteOne(i?._id)}>

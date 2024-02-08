@@ -3,9 +3,12 @@ import "./ProEdit.css";
 import { MdClose } from "react-icons/md";
 import { FiPlus, FiMinus } from "react-icons/fi";
 import axios from "../../../api/index";
-import { toast, ToastContainer, Zoom } from "react-toastify";
+import { useUpdatePostMutation } from "../../../redux/productApi";
+import { toast, ToastContainer } from "react-toastify";
 
 const ProEdit = ({ close, data }) => {
+  const [updatePost] = useUpdatePostMutation();
+
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
   const [color, setColor] = useState("");
@@ -39,11 +42,7 @@ const ProEdit = ({ close, data }) => {
     setCount(count - 1);
   };
 
-  // const inputQuantity = (e) => {
-  //   let quantity = e.trimStart();
-  // };
-
-  const proFormData = (e) => {
+  const proFormData = async (e) => {
     e.preventDefault();
     let proData = {
       brand,
@@ -57,10 +56,25 @@ const ProEdit = ({ close, data }) => {
       quantity: count,
     };
 
-    axios
-      .put(`/pro/update/${data?._id}`, proData)
+    // axios
+    //   .put(`/pro/update/${data?._id}`, proData)
+    //   .then((res) => {
+    //     console.log(res);
+    //     if (res?.data?.status) {
+    //       toast.success("Muofaqiyatli o'zgartirish kiritildi", {
+    //         autoClose: 2000,
+    //         closeButton: false,
+    //         hideProgressBar: true,
+    //       });
+    //       return setTimeout(() => {
+    //         close(false);
+    //       }, 3000);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err));
+
+    await updatePost({ _id: data?._id, updateData: proData })
       .then((res) => {
-        console.log(res);
         if (res?.data?.status) {
           toast.success("Muofaqiyatli o'zgartirish kiritildi", {
             autoClose: 2000,
