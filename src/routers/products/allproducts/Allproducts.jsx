@@ -2,7 +2,7 @@ import "./allProducts.css";
 import { useState, useEffect, memo } from "react";
 import axios from "../../../api";
 import Loader from "../../../components/loader/Loader";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEdit, FaMinus } from "react-icons/fa";
 import ProEdit from "../proEdit/ProEdit";
 function Allproducts() {
   const [updateData, setUpdateData] = useState("");
@@ -83,10 +83,10 @@ function Allproducts() {
                   <td>{i?.price}</td>
                   <td>{i?.quantity}</td>
                   <td>{i?.category}</td>
-                  <td>{i?.subcategory}</td>
+                  <td>{i?.subcategory ? i?.subcategory : <FaMinus />}</td>
                   <td>{i?.size}</td>
                   <td>{i?.brand}</td>
-                  <td>{i?.color}</td>
+                  <td>{i?.color ? i?.color : <FaMinus />}</td>
                   <td onClick={() => proEdit(i?._id)}>
                     <FaEdit />
                   </td>
