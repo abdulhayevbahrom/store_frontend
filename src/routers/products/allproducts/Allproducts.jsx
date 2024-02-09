@@ -6,6 +6,9 @@ import ProEdit from "../proEdit/ProEdit";
 import {
   useGetAllProductsQuery,
   useUpdatePostMutation,
+  useDeletePostMutation,
+  useSearchPostMutation,
+  useDeleteAllProductsMutation,
 } from "../../../redux/productApi";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -14,33 +17,50 @@ import emptyData from "../../../assets/notFoundImg.jpeg";
 function Allproducts() {
   const { data, error } = useGetAllProductsQuery();
   const [updatePost] = useUpdatePostMutation();
+  const [deletePost, { isLoading }] = useDeletePostMutation();
+  const [searchPost] = useSearchPostMutation();
+  const [deleteAllProducts] = useDeleteAllProductsMutation();
 
   const [updateData, setUpdateData] = useState("");
   const [openProEdit, setOpenProEdit] = useState(false);
   let [dataItem, setDataItem] = useState(null);
 
   useEffect(() => {
-    setDataItem(data?.innerData);
+    if (!error) setDataItem(data?.innerData);
   }, [data]);
 
   useEffect(() => {
     if (error) {
       toast.error("Malumot toqilmadi");
     }
-  }, [error]);
+  }, []);
 
-  function deleteAll() {
-    axios
-      .delete("/pro/deleteAllData")
-      .then((res) => setDataItem(res))
-      .catch((err) => console.log(err));
+  async function deleteAll() {
+    let clientConfirm = window.confirm("Malumotni o'chirishga rozimisiz");
+
+    clientConfirm &&
+      (await deleteAllProducts()
+        .then((res) => setDataItem(res))
+        .catch((err) => console.log(err)));
   }
 
-  function deleteOne(id) {
-    axios
-      .delete(`/pro/delete/${id}`)
-      .then((res) => setDataItem(res))
-      .catch((err) => console.log(err));
+  async function deleteOne(id) {
+    let clientConfirm = window.confirm("Malumotni o'chirishga rozimisiz");
+
+    clientConfirm &&
+      (await deletePost(id)
+        .then((res) => {
+          if (res?.data?.msg === "product is deleted") {
+            isLoading &&
+              toast.success("Malumot muofaqiyatli o'chirildi", {
+                autoClose: 1500,
+                closeButton: false,
+                hideProgressBar: true,
+              });
+            setDataItem(res);
+          }
+        })
+        .catch((err) => console.log(err)));
   }
 
   async function proEdit(data) {
@@ -54,11 +74,10 @@ function Allproducts() {
       .catch((err) => console.log(err));
   }
 
-  function SearchValue(e) {
+  async function SearchValue(e) {
     let value = e.trimStart();
 
-    axios
-      .post("/pro/search", { value })
+    await searchPost({ value })
       .then((res) => {
         if (res?.data?.status === "success") {
           setDataItem(res?.data?.innerData);
@@ -77,7 +96,11 @@ function Allproducts() {
 
       <div className="container">
         <ToastContainer />
-        {dataItem?.length ? (
+        {error ? (
+          <div className="img_container">
+            <img src={emptyData} alt="" />
+          </div>
+        ) : (
           <table className="fl-table">
             <caption>
               <input
@@ -127,10 +150,6 @@ function Allproducts() {
               ))}
             </tbody>
           </table>
-        ) : (
-          <div className="img_container">
-            <img src={emptyData} alt="" />
-          </div>
         )}
       </div>
     </div>

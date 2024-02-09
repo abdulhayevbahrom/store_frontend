@@ -3,8 +3,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5500" }),
-  tagTypes: ["GETPRODUCT"],
+  tagTypes: ["GETPRODUCT", "GET_ALL_CRIDIT"],
   endpoints: (builder) => ({
+    // product API => get api
     getAllProducts: builder.query({
       query: () => "/pro/allProducts",
       providesTags: ["GETPRODUCT"],
@@ -19,7 +20,7 @@ export const productsApi = createApi({
       },
       invalidatesTags: ["GETPRODUCT"],
     }),
-
+    // product update api =>
     updatePost: builder.mutation({
       query(data) {
         const { updateData } = data;
@@ -31,22 +32,66 @@ export const productsApi = createApi({
       },
       invalidatesTags: ["GETPRODUCT"],
     }),
+
+    // product delete api =>
+
     deletePost: builder.mutation({
       query(id) {
         return {
-          url: `/pro/deleteAllData/${id}`,
+          url: `/pro/delete/${id}`,
           method: "DELETE",
         };
       },
 
-      invalidatesTags: (result, error, id) => [{ type: "Posts", id }],
+      invalidatesTags: ["GETPRODUCT"],
+    }),
+
+    // delete all product api =>
+
+    deleteAllProducts: builder.mutation({
+      query() {
+        return {
+          url: `/pro/deleteAllData`,
+          method: "DELETE",
+        };
+      },
+
+      invalidatesTags: ["GETPRODUCT"],
+    }),
+
+    // product seach api =>
+
+    searchPost: builder.mutation({
+      query(body) {
+        return {
+          url: `/pro/search`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["GETPRODUCT"],
+    }),
+
+    // CRIDIT API START => API get  all cridit data
+
+    getAllCridit: builder.query({
+      query: () => "/creditUser/creditUsers",
+      providesTags: ["GET_ALL_CRIDIT"],
     }),
   }),
 });
 
 export const {
+  // product API =>
+
   useGetAllProductsQuery,
   useUpdatePostMutation,
   useDeletePostMutation,
   useAddPostMutation,
+  useSearchPostMutation,
+  useDeleteAllProductsMutation,
+
+  // cridit API =>
+
+  useGetAllCriditQuery,
 } = productsApi;
