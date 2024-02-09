@@ -15,7 +15,9 @@ function Nasiya() {
       value.lastname === "" ||
       value.address === "" ||
       value.phone === "" ||
-      value.passport === ""
+      value.passport === "" ||
+      value.data === ""
+
     ) {
       return toast.warn("Inputlar ichini toldiring", {
         transition: Zoom,
@@ -27,6 +29,7 @@ function Nasiya() {
     axios
       .post("/creditUser/create", value)
       .then((res) => {
+        console.log(res);
         if (res?.data?.innerData) {
           localStorage.setItem(
             "userCreditInfo",
@@ -60,6 +63,7 @@ function Nasiya() {
                 type="text"
                 placeholder="Passport raqami"
               />
+              <input type="date" name="data"/>
             </div>
             <button type="submit">Saqlash</button>
           </form>

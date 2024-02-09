@@ -87,7 +87,7 @@ function Cart() {
             {cart?.map((i, inx) => (
               <tr key={inx}>
                 <td>{inx + 1}</td>
-                <td>{i?.title}</td>
+                <td>{i?.title ? i?.title : "-"}</td>
                 <td>{i?.price}</td>
                 <td>{i?.size}</td>
                 <td>{i?.color}</td>
