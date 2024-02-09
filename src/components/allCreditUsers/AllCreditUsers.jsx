@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./AllCreditUsers.css";
-import axios from "../../api/index";
 import {
   FaPencilAlt,
   FaRegCalendarPlus,
@@ -12,18 +11,28 @@ import { FaTrashCan } from "react-icons/fa6";
 import { BsCart2 } from "react-icons/bs";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { GiMoneyStack } from "react-icons/gi";
-import { useGetAllCriditQuery } from "../../redux/productApi";
+import {
+  useGetAllCriditQuery,
+  useCriditFintUserMutation,
+} from "../../redux/productApi";
 import emptyData from "../../assets/notFoundImg.jpeg";
 
 function AllCreditUsers() {
-  const { data, isLoading, isSuccess } = useGetAllCriditQuery();
+  const { data, isLoading } = useGetAllCriditQuery();
+  const [findCriditUset] = useCriditFintUserMutation();
   let [dataItem, setDataItem] = useState(null);
 
   useEffect(() => {
     if (data?.status === "success") {
-      isSuccess && setDataItem(data?.innerData);
+      setDataItem(data?.innerData);
     }
-  }, [dataItem]);
+  }, [data]);
+
+  const clickEye = async (id) => {
+    await findCriditUset({ id })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   let addData = new Date().toLocaleString();
   let split = addData.split(" ");
@@ -81,7 +90,7 @@ function AllCreditUsers() {
                     <td>{split[0]}</td>
                     <td>{split[0]}</td>
                     <td>
-                      <FaRegEye />
+                      <FaRegEye onClick={() => clickEye(i?._id)} />
                     </td>
                     <td>
                       <FaPencilAlt />

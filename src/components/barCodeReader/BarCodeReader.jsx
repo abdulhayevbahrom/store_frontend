@@ -4,8 +4,10 @@ import "./barCodeReader.css";
 import BarCodeScan from "./barCodeScan/BarCodeScan";
 import axios from "../../api";
 import { AddToCart } from "../../redux/cart";
+import { useGetScanerDataMutation } from "../../redux/productApi";
 
 function BarCodeReader() {
+  const [getScanerData, { isLoading, isSuccess }] = useGetScanerDataMutation();
   const dispatch = useDispatch();
   let [data, setData] = useState(null);
   let [id, setId] = useState("");
@@ -17,8 +19,16 @@ function BarCodeReader() {
     setId(decodedText);
   };
   useEffect(() => {
-    axios
-      .post("/pro/scan", { barcode: id })
+    // axios
+    //   .post("/pro/scan", { barcode: id })
+    //   .then((res) => {
+    //     setData(res.data.innerData);
+    //     setPrice(res.data.innerData.price);
+    //     setTotalQuantity(res.data.innerData.quantity);
+    //     setTotalPrice(res.data.innerData.price);
+    //   })
+    //   .catch((res) => console.log(res));
+    getScanerData({ barcode: id })
       .then((res) => {
         setData(res.data.innerData);
         setPrice(res.data.innerData.price);
@@ -35,13 +45,14 @@ function BarCodeReader() {
     setTotalPrice(e * price);
     setTotalQuantity(data.quantity - e);
   }
-  console.log(data);
 
   // ADDING TO CART SELECTED ITEM
   function addToCart(cart) {
-    cart.quantity = +quantity;
-    cart.price = +price;
-    cart.totalPrice = +totalPrice;
+    let { quantity, price, totalPrice } = cart;
+    console.log(quantity);
+    quantity = +quantity;
+    price = +price;
+    totalPrice = +totalPrice;
     dispatch(AddToCart(cart));
     setId("");
     setData(null);
@@ -59,9 +70,12 @@ function BarCodeReader() {
         />
       ) : (
         <div className="scanned">
-          <p>nomi:{data?.title}</p>
-          <span>asl narxi:{data?.orgPrice}</span>
-          <div>
+          <p>nomi: {data?.title}</p>
+          <div className="scaner_item">
+            <label>asl narxi:</label>
+            <span>{data?.orgPrice + " so'm"}</span>
+          </div>
+          <div className="scaner_item">
             <label>Sotiladigan narxi:</label>
             <input
               type="text"
@@ -72,12 +86,15 @@ function BarCodeReader() {
               }}
             />
           </div>
-          <div>
+          <div className="scaner_item">
             <label>Bazadagi miqdori:</label>
             <input type="text" value={totalquantity} />
           </div>
-          <span>kategoriyasi:{data?.category}</span>
-          <div>
+          <div className="scaner_item">
+            <label>kategoriyasi:</label>
+            <span>{data?.category}</span>
+          </div>
+          <div className="scaner_item">
             <label>Sotiladigan miqdori:</label>
             <input
               type="number"
@@ -87,7 +104,7 @@ function BarCodeReader() {
               }}
             />
           </div>
-          <div>
+          <div className="scaner_item">
             <label>Umumiy narxi:</label>
             <input
               type="text"

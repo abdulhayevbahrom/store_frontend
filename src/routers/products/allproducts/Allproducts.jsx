@@ -17,7 +17,7 @@ import emptyData from "../../../assets/notFoundImg.jpeg";
 function Allproducts() {
   const { data, error } = useGetAllProductsQuery();
   const [updatePost] = useUpdatePostMutation();
-  const [deletePost, { isLoading }] = useDeletePostMutation();
+  const [deletePost, { isLoading, isSuccess }] = useDeletePostMutation();
   const [searchPost] = useSearchPostMutation();
   const [deleteAllProducts] = useDeleteAllProductsMutation();
 
@@ -51,7 +51,7 @@ function Allproducts() {
       (await deletePost(id)
         .then((res) => {
           if (res?.data?.msg === "product is deleted") {
-            isLoading &&
+            isSuccess &&
               toast.success("Malumot muofaqiyatli o'chirildi", {
                 autoClose: 1500,
                 closeButton: false,

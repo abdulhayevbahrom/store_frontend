@@ -1,0 +1,59 @@
+.cridit_page {
+  width: 100%;
+  background: #fffaff;
+  height: 100vh;
+}
+
+.cridit_container {
+  width: 100%;
+  height: calc(100vh - 70px);
+}
+
+.cridit_main_loyout {
+  width: 100%;
+  height: calc(100% - 80px);
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.cridit_header_links {
+  width: 100%;
+  height: 70px;
+  background: #eeeaee;
+  display: flex;
+  align-items: center;
+  padding: 0 2%;
+}
+
+.cridit_header_links ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 10px;
+}
+
+.cridit_header_links ul li {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fffaff;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.cridit_header_links ul li.li_active {
+  background: var(--bgColor);
+  border-bottom: 1px solid #fff;
+}
+
+.cridit_header_links ul li.li_active a {
+  color: var(--textColorLight);
+}
+
+.cridit_header_links ul li a {
+  font-size: 17px;
+  color: #000;
+}

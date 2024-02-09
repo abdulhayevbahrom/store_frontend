@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import { ProductController } from "./controller/ProductController";
 import Allproducts from "./routers/products/allproducts/Allproducts";
 import CreateProduct from "./routers/products/createProduct/CreateProduct";
+import AllCreditUsers from "./components/allCreditUsers/AllCreditUsers";
+import Nasiya from "./routers/nasiya/nasiya_create/Nasiya";
 
 function Router() {
   return (
@@ -27,6 +29,12 @@ function Router() {
           <Route path="/product" element={<Product />}>
             <Route path="/product" element={<CreateProduct />} />
             <Route path="/product/allProduct" element={<Allproducts />} />
+          </Route>
+        </Route>
+        <Route element={<ProductController />}>
+          <Route path="/nasiya" element={<NasiyaCart />}>
+            <Route path="/nasiya" element={<Nasiya />} />
+            <Route path="/nasiya/allCridit" element={<AllCreditUsers />} />
           </Route>
         </Route>
       </Routes>

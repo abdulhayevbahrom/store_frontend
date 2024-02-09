@@ -13,7 +13,7 @@
 }
 .scanned {
   width: 400px !important;
-  height: 400px !important;
+  height: 550px !important;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -31,10 +31,29 @@
   font-size: 20px;
   text-align: center;
 }
-.scanned input {
-  background: transparent;
-  appearance: none;
-  -moz-appearance: none;
+
+.scaner_item {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #fff;
+  padding: 7px 10px;
+  align-items: center;
+  border-radius: 10px;
+  gap: 5px;
+}
+
+.scaner_item input[type="number"]::-webkit-inner-spin-button,
+.scaner_item input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+.scaner_item input {
+  height: 100%;
+  border: none;
+  text-indent: 10px;
+  font-size: 13px;
+  border-radius: 5px;
 }
 
 .scanned button {

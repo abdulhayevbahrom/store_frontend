@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5500" }),
-  tagTypes: ["GETPRODUCT", "GET_ALL_CRIDIT"],
+  tagTypes: ["GETPRODUCT", "GET_ALL_CRIDIT", "SCANER_DATA"],
   endpoints: (builder) => ({
     // product API => get api
     getAllProducts: builder.query({
@@ -72,10 +72,34 @@ export const productsApi = createApi({
       invalidatesTags: ["GETPRODUCT"],
     }),
 
+    //  scaner API =>
+
+    getScanerData: builder.mutation({
+      query(body) {
+        return {
+          url: `/pro/scan`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["SCANER_DATA"],
+    }),
+
     // CRIDIT API START => API get  all cridit data
 
     getAllCridit: builder.query({
       query: () => "/creditUser/creditUsers",
+      providesTags: ["GET_ALL_CRIDIT"],
+    }),
+    criditFintUser: builder.mutation({
+      query(body) {
+        let id = body;
+        return {
+          url: `/creditUser/criditFindUser/${id}`,
+          method: "POST",
+          body,
+        };
+      },
       providesTags: ["GET_ALL_CRIDIT"],
     }),
   }),
@@ -91,7 +115,12 @@ export const {
   useSearchPostMutation,
   useDeleteAllProductsMutation,
 
+  // get scaner data API =>
+
+  useGetScanerDataMutation,
+
   // cridit API =>
 
   useGetAllCriditQuery,
+  useCriditFintUserMutation,
 } = productsApi;
