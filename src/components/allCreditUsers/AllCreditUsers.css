@@ -71,6 +71,14 @@
   border: none;
 }
 
+.cridit_empty_img {
+  width: 100%;
+  height: calc(100vh - 90px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Responsive */
 
 @media (max-width: 767px) {
