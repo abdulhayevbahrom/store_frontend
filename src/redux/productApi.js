@@ -34,12 +34,32 @@ export const productsApi = createApi({
     deletePost: builder.mutation({
       query(id) {
         return {
-          url: `/pro/deleteAllData/${id}`,
+          url: `/pro/delete/${id}`,
           method: "DELETE",
         };
       },
 
-      invalidatesTags: (result, error, id) => [{ type: "Posts", id }],
+      invalidatesTags: ["GETPRODUCT"],
+    }),
+    deleteAllProducts: builder.mutation({
+      query() {
+        return {
+          url: `/pro/deleteAllData`,
+          method: "DELETE",
+        };
+      },
+
+      invalidatesTags: ["GETPRODUCT"],
+    }),
+    searchPost: builder.mutation({
+      query(body) {
+        return {
+          url: `/pro/search`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["GETPRODUCT"],
     }),
   }),
 });
@@ -49,4 +69,6 @@ export const {
   useUpdatePostMutation,
   useDeletePostMutation,
   useAddPostMutation,
+  useSearchPostMutation,
+  useDeleteAllProductsMutation,
 } = productsApi;

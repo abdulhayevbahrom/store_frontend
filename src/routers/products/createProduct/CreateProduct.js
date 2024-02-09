@@ -12,10 +12,9 @@ import {
 import { toast, ToastContainer } from "react-toastify";
 
 const CreateProduct = () => {
-  const { data, error } = useGetAllProductsQuery();
+  const { data, error, isLoading, isSuccess } = useGetAllProductsQuery();
 
   const [addPost] = useAddPostMutation();
-  const [loader, setLoader] = useState(false);
   const [openBarcode, setOpenBarcode] = useState(false);
   const [categoryData, setCategoryData] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
@@ -43,14 +42,17 @@ const CreateProduct = () => {
     data.quantity = +data.quantity;
     data.barcode = barcode;
 
-    setLoader(true);
-
     await addPost(data)
       .then((res) => {
         if (res.data?.innerData?.barcode) {
-          setLoader(false);
+          toast.success("Malumotlar muofaqiyatli qo'shildi", {
+            autoClose: 2000,
+            closeButton: false,
+            hideProgressBar: true,
+          });
           setCategoryId(barcode);
           setOpenBarcode(true);
+          e.target.reset();
         }
       })
       .catch((err) => console.log(err));
@@ -102,7 +104,7 @@ const CreateProduct = () => {
                   )}
                   {!addCategory ? (
                     <select name="category">
-                      {categoryData?.length ? (
+                      {isSuccess ? (
                         categoryData?.map((i, inx) => (
                           <option key={inx} value={i?.category}>
                             {i?.category}
@@ -125,7 +127,7 @@ const CreateProduct = () => {
                 </div>
               </div>
               <div className="form_btn">
-                <button>{loader && <BtnLoader />} Create</button>
+                <button>{isLoading && <BtnLoader />} Create</button>
               </div>
             </form>
           </div>
