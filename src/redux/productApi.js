@@ -91,11 +91,24 @@ export const productsApi = createApi({
       query: () => "/creditUser/creditUsers",
       providesTags: ["GET_ALL_CRIDIT"],
     }),
+
     criditFintUser: builder.mutation({
       query(body) {
         let id = body;
         return {
-          url: `/creditUser/criditFindUser/${id}`,
+          url: `/creditUser/creditFindUser/${id}`,
+          method: "POST",
+          body,
+        };
+      },
+      providesTags: ["GET_ALL_CRIDIT"],
+    }),
+
+    creditFindRegister: builder.mutation({
+      query(body) {
+        console.log(body);
+        return {
+          url: `/creditUser/creditFindRegister`,
           method: "POST",
           body,
         };
@@ -123,4 +136,5 @@ export const {
 
   useGetAllCriditQuery,
   useCriditFintUserMutation,
+  useCreditFindRegisterMutation,
 } = productsApi;

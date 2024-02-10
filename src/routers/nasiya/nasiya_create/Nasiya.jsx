@@ -5,11 +5,22 @@ import { toast, ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Nasiya() {
+  const [idNumber, setIdNumber] = useState("");
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    const regexPattern = /^[a-zA-Z]{2}\d{7}$/;
+    if (regexPattern.test(value)) {
+      setIdNumber(value);
+      console.log(value);
+    }
+  };
+
   function sendData(e) {
     e.preventDefault();
     let creditData = new FormData(e.target);
     let value = Object.fromEntries(creditData);
     value.phone = +value.phone;
+    value.passport = idNumber;
     if (
       value.firstname === "" ||
       value.lastname === "" ||
@@ -17,7 +28,6 @@ function Nasiya() {
       value.phone === "" ||
       value.passport === "" ||
       value.data === ""
-
     ) {
       return toast.warn("Inputlar ichini toldiring", {
         transition: Zoom,
@@ -39,7 +49,7 @@ function Nasiya() {
             autoClose: 1500,
             hideProgressBar: true,
           });
-          return setTimeout(() => window.location.reload(), 2500);
+          // return setTimeout(() => window.location.reload(), 2500);
         }
       })
       .catch((res) => console.log(res));
@@ -62,8 +72,9 @@ function Nasiya() {
                 name="passport"
                 type="text"
                 placeholder="Passport raqami"
+                onChange={(e) => handleInputChange(e)}
               />
-              <input type="date" name="data"/>
+              <input type="date" name="data" />
             </div>
             <button type="submit">Saqlash</button>
           </form>

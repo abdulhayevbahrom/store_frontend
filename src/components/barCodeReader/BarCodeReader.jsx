@@ -14,7 +14,7 @@ function BarCodeReader() {
   let [price, setPrice] = useState("");
   let [totalquantity, setTotalQuantity] = useState("");
   let [quantity, setQuantity] = useState(1);
-  let [totalPrice, setTotalPrice] = useState("");
+  let [totalPrice, setTotalPrice] = useState(0);
   const onNewScanResult = (decodedText, decodedResult) => {
     setId(decodedText);
   };
@@ -30,10 +30,10 @@ function BarCodeReader() {
     //   .catch((res) => console.log(res));
     getScanerData({ barcode: id })
       .then((res) => {
-        setData(res.data.innerData);
-        setPrice(res.data.innerData.price);
-        setTotalQuantity(res.data.innerData.quantity);
-        setTotalPrice(res.data.innerData.price);
+        setData(res?.data?.innerData);
+        setPrice(res?.data?.innerData?.price);
+        setTotalQuantity(res?.data?.innerData?.quantity);
+        setTotalPrice(res?.data?.innerData?.price);
       })
       .catch((res) => console.log(res));
   }, [id.length]);
@@ -41,9 +41,10 @@ function BarCodeReader() {
   // COUNTING TOTALPRICE
 
   function calculatePrice(e) {
+    console.log(e);
     setQuantity(e);
     setTotalPrice(e * price);
-    setTotalQuantity(data.quantity - e);
+    setTotalQuantity(data?.quantity - e);
   }
 
   // ADDING TO CART SELECTED ITEM

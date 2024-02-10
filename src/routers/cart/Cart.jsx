@@ -12,11 +12,13 @@ import axios from "../../api";
 import { toast } from "react-toastify";
 import emptyCart from "../../assets/emptyCart.png";
 import { useState } from "react";
+import CriditRegister from "../../components/criditRegister/CriditRegister";
 
 function Cart() {
   const cart = useCart();
   const dispatch = useDispatch();
   const [count, setCount] = useState(0);
+  const [openRgister, setOpenRgister] = useState(false);
 
   // delete item
   function handleDelete(id) {
@@ -31,8 +33,21 @@ function Cart() {
     }
   }
 
+  let totalPrice = cart.reduce((a, b) => a + b?.price * count, 0);
+
+  // CART INCREMENT => FUNCTION
+
   function incrementCart(id) {
-    dispatch(IncrementCart({ id }));
+    dispatch(IncrementCart(id));
+    console.log(id);
+
+    setCount(count + 1);
+  }
+
+  // CART DECREMENT => FUNCTION
+
+  function decrementCart(id) {
+    dispatch(DecrementCart({ id }));
 
     if (count <= 0) {
       return setCount(0);
@@ -40,12 +55,7 @@ function Cart() {
     setCount(count - 1);
   }
 
-  function decrementCart(id) {
-    dispatch(DecrementCart({ id }));
-
-    setCount(count + 1);
-  }
-  console.log(cart);
+  // CART CLEAR => FUNCTION
 
   function clearCart() {
     let warning = window.confirm("Savatni bo'shatishni xohlaysizmi?");
@@ -58,8 +68,6 @@ function Cart() {
       });
     }
   }
-
-  let totalPrice = cart.reduce((a, b) => a + b.price * count, 0);
 
   function checkout() {
     axios
@@ -74,8 +82,19 @@ function Cart() {
       .catch((err) => console.log(err));
   }
 
+  // cridit register function
+
+  const register = () => {
+    setOpenRgister(true);
+  };
+
+  openRgister
+    ? (document.body.style.overflow = "hidden")
+    : (document.body.style.overflow = "auto");
+
   return (
     <div className="main_cart_home">
+      {openRgister && <CriditRegister close={setOpenRgister} />}
       <div className="container">
         {cart?.length ? (
           <div className="cart_table_container">
@@ -102,18 +121,18 @@ function Cart() {
                     <td>{item?.price ? item?.price + " ming" : 0}</td>
                     <td>{item?.size ? item?.size : <FaMinus />}</td>
                     <td>{item?.color ? item?.color : <FaMinus />}</td>
-                    <td>{totalPrice + " so'm"}</td>
+                    <td>{cart?.totalPrice + " so'm"}</td>
                     <td>{item?.quantity ? item?.quantity + " ta" : 0}</td>
                     <td>
                       <div className="table_butons">
                         <button
                           disabled={count <= 0 ? true : false}
-                          onClick={() => incrementCart(item?._id)}
+                          onClick={() => decrementCart(item?._id)}
                         >
                           <FaMinus />
                         </button>
-                        <span>{item?.price * count}</span>
-                        <button onClick={() => decrementCart(item?._id)}>
+                        <span>{count}</span>
+                        <button onClick={() => incrementCart(item?._id)}>
                           <FaPlus />
                         </button>
                       </div>
@@ -152,7 +171,7 @@ function Cart() {
               </div>
               <div className="cart_tfoot_btn">
                 <button>Naxtga sotib olish</button>
-                <button>Nasiyaga sotib olish</button>
+                <button onClick={register}>Nasiyaga sotib olish</button>
               </div>
             </div>
           </div>

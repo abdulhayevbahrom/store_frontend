@@ -15,14 +15,14 @@ function NasiyaCart() {
               <li
                 className={location.pathname === "/nasiya" ? "li_active" : ""}
               >
-                <NavLink to="/nasiya">Mahsulot qo'shish</NavLink>
+                <NavLink to="/nasiya">Nasiya qo'shish</NavLink>
               </li>
               <li
                 className={
                   location.pathname === "/nasiya/allCridit" ? "li_active" : ""
                 }
               >
-                <NavLink to="/nasiya/allCridit">Barcha mahsulotlar</NavLink>
+                <NavLink to="/nasiya/allCridit">Nasiyadagi odamlar</NavLink>
               </li>
             </ul>
           </div>
