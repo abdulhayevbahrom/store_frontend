@@ -92,6 +92,18 @@ export const productsApi = createApi({
       providesTags: ["GET_ALL_CRIDIT"],
     }),
 
+    creditUserDeleteOne: builder.mutation({
+      query(id) {
+        console.log(id);
+        return {
+          url: `/creditUser/creditDeleteOneUser/${id}`,
+          method: "DELETE",
+        };
+      },
+
+      invalidatesTags: ["GET_ALL_CRIDIT"],
+    }),
+
     criditFintUser: builder.mutation({
       query(body) {
         let id = body;
@@ -106,7 +118,6 @@ export const productsApi = createApi({
 
     creditFindRegister: builder.mutation({
       query(body) {
-        console.log(body);
         return {
           url: `/creditUser/creditFindRegister`,
           method: "POST",
@@ -136,5 +147,6 @@ export const {
 
   useGetAllCriditQuery,
   useCriditFintUserMutation,
+  useCreditUserDeleteOneMutation,
   useCreditFindRegisterMutation,
 } = productsApi;

@@ -14,13 +14,35 @@ import { GiMoneyStack } from "react-icons/gi";
 import {
   useGetAllCriditQuery,
   useCriditFintUserMutation,
+  useCreditUserDeleteOneMutation,
 } from "../../redux/productApi";
+import { toast, ToastContainer, Zoom } from "react-toastify";
 import emptyData from "../../assets/notFoundImg.jpeg";
 
 function AllCreditUsers() {
   const { data, isLoading } = useGetAllCriditQuery();
   const [findCriditUset] = useCriditFintUserMutation();
-  let [dataItem, setDataItem] = useState(null);
+  const [creditUserDeleteOne] = useCreditUserDeleteOneMutation();
+
+  let [dataItem, setDataItem] = useState([]);
+
+  const criditUserDeleteOne = async (id) => {
+    let clientConfirm = window.confirm("Malumotni o'chirishga rozimisiz");
+
+    clientConfirm &&
+      (await creditUserDeleteOne(id)
+        .then((res) => {
+          if (res?.data?.status) {
+            toast.success("malumor o'chirildi", {
+              transition: Zoom,
+              autoClose: 2000,
+              closeButton: false,
+              hideProgressBar: true,
+            });
+          }
+        })
+        .catch((err) => console.log(err)));
+  };
 
   useEffect(() => {
     if (data?.status === "success") {
@@ -96,7 +118,7 @@ function AllCreditUsers() {
                       <FaPencilAlt />
                     </td>
                     <td>
-                      <FaTrashCan />
+                      <FaTrashCan onClick={() => criditUserDeleteOne(i?._id)} />
                     </td>
                   </tr>
                 ))}

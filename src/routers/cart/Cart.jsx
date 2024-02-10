@@ -17,7 +17,6 @@ import CriditRegister from "../../components/criditRegister/CriditRegister";
 function Cart() {
   const cart = useCart();
   const dispatch = useDispatch();
-  const [count, setCount] = useState(0);
   const [openRgister, setOpenRgister] = useState(false);
 
   // delete item
@@ -33,26 +32,16 @@ function Cart() {
     }
   }
 
-  let totalPrice = cart.reduce((a, b) => a + b?.price * count, 0);
-
   // CART INCREMENT => FUNCTION
 
   function incrementCart(id) {
-    dispatch(IncrementCart(id));
-    console.log(id);
-
-    setCount(count + 1);
+    dispatch(IncrementCart({ id }));
   }
 
   // CART DECREMENT => FUNCTION
 
   function decrementCart(id) {
     dispatch(DecrementCart({ id }));
-
-    if (count <= 0) {
-      return setCount(0);
-    }
-    setCount(count - 1);
   }
 
   // CART CLEAR => FUNCTION
@@ -68,6 +57,8 @@ function Cart() {
       });
     }
   }
+
+  let subtotal = cart?.reduce((a, b) => a + b.totalPrice, 0);
 
   function checkout() {
     axios
@@ -126,12 +117,12 @@ function Cart() {
                     <td>
                       <div className="table_butons">
                         <button
-                          disabled={count <= 0 ? true : false}
+                          disabled={item?.quantity == 1}
                           onClick={() => decrementCart(item?._id)}
                         >
                           <FaMinus />
                         </button>
-                        <span>{count}</span>
+                        <span>{item.quantity}</span>
                         <button onClick={() => incrementCart(item?._id)}>
                           <FaPlus />
                         </button>
@@ -164,7 +155,7 @@ function Cart() {
                   <li>
                     <span>Umumiy narxi:</span>
                     <h2>
-                      {totalPrice} <span> so'm</span>
+                      {subtotal} <span> so'm</span>
                     </h2>
                   </li>
                 </ul>

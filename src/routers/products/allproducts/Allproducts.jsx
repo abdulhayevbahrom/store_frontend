@@ -96,7 +96,7 @@ function Allproducts() {
 
       <div className="container">
         <ToastContainer />
-        {error ? (
+        {!dataItem?.length ? (
           <div className="img_container">
             <img src={emptyData} alt="" />
           </div>
