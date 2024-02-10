@@ -11,16 +11,17 @@ import { FaTrashCan } from "react-icons/fa6";
 import { BsCart2 } from "react-icons/bs";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { GiMoneyStack } from "react-icons/gi";
+// CREDIT API =>
 import {
-  useGetAllCriditQuery,
   useCriditFintUserMutation,
   useCreditUserDeleteOneMutation,
-} from "../../redux/productApi";
+  useGetAllCriditDataQuery,
+} from "../../redux/criditApi";
 import { toast, ToastContainer, Zoom } from "react-toastify";
 import emptyData from "../../assets/notFoundImg.jpeg";
 
 function AllCreditUsers() {
-  const { data, isLoading } = useGetAllCriditQuery();
+  const { data, isLoading } = useGetAllCriditDataQuery();
   const [findCriditUset] = useCriditFintUserMutation();
   const [creditUserDeleteOne] = useCreditUserDeleteOneMutation();
 

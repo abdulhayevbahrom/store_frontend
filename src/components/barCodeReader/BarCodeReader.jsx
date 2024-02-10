@@ -4,10 +4,10 @@ import "./barCodeReader.css";
 import BarCodeScan from "./barCodeScan/BarCodeScan";
 import axios from "../../api";
 import { AddToCart } from "../../redux/cart";
-import { useGetScanerDataMutation } from "../../redux/productApi";
+import { useGetScanerDataMutation } from "../../redux/scanerApi";
 
 function BarCodeReader() {
-  const [getScanerData, { isLoading, isSuccess }] = useGetScanerDataMutation();
+  const [getScanerData] = useGetScanerDataMutation();
   const dispatch = useDispatch();
   let [data, setData] = useState(null);
   let [id, setId] = useState("");

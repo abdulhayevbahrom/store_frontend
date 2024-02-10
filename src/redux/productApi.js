@@ -1,16 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { api } from "./api";
 
-export const productsApi = createApi({
-  reducerPath: "productsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5500" }),
-  tagTypes: ["GETPRODUCT", "GET_ALL_CRIDIT", "SCANER_DATA"],
+export const productsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     // product API => get api
     getAllProducts: builder.query({
       query: () => "/pro/allProducts",
       providesTags: ["GETPRODUCT"],
     }),
-    addPost: builder.mutation({
+    addProduct: builder.mutation({
       query(body) {
         return {
           url: `/pro/create`,
@@ -21,7 +18,7 @@ export const productsApi = createApi({
       invalidatesTags: ["GETPRODUCT"],
     }),
     // product update api =>
-    updatePost: builder.mutation({
+    productUpdate: builder.mutation({
       query(data) {
         const { updateData } = data;
         return {
@@ -35,7 +32,7 @@ export const productsApi = createApi({
 
     // product delete api =>
 
-    deletePost: builder.mutation({
+    deleteOneProduct: builder.mutation({
       query(id) {
         return {
           url: `/pro/delete/${id}`,
@@ -59,8 +56,7 @@ export const productsApi = createApi({
       invalidatesTags: ["GETPRODUCT"],
     }),
 
-    // product seach api =>
-
+    // POST => SEARCH PRODICT DATA
     searchPost: builder.mutation({
       query(body) {
         return {
@@ -71,82 +67,14 @@ export const productsApi = createApi({
       },
       invalidatesTags: ["GETPRODUCT"],
     }),
-
-    //  scaner API =>
-
-    getScanerData: builder.mutation({
-      query(body) {
-        return {
-          url: `/pro/scan`,
-          method: "POST",
-          body,
-        };
-      },
-      invalidatesTags: ["SCANER_DATA"],
-    }),
-
-    // CRIDIT API START => API get  all cridit data
-
-    getAllCridit: builder.query({
-      query: () => "/creditUser/creditUsers",
-      providesTags: ["GET_ALL_CRIDIT"],
-    }),
-
-    creditUserDeleteOne: builder.mutation({
-      query(id) {
-        console.log(id);
-        return {
-          url: `/creditUser/creditDeleteOneUser/${id}`,
-          method: "DELETE",
-        };
-      },
-
-      invalidatesTags: ["GET_ALL_CRIDIT"],
-    }),
-
-    criditFintUser: builder.mutation({
-      query(body) {
-        let id = body;
-        return {
-          url: `/creditUser/creditFindUser/${id}`,
-          method: "POST",
-          body,
-        };
-      },
-      providesTags: ["GET_ALL_CRIDIT"],
-    }),
-
-    creditFindRegister: builder.mutation({
-      query(body) {
-        return {
-          url: `/creditUser/creditFindRegister`,
-          method: "POST",
-          body,
-        };
-      },
-      providesTags: ["GET_ALL_CRIDIT"],
-    }),
   }),
 });
 
 export const {
-  // product API =>
-
   useGetAllProductsQuery,
-  useUpdatePostMutation,
-  useDeletePostMutation,
-  useAddPostMutation,
-  useSearchPostMutation,
+  useAddProductMutation,
+  useProductUpdateMutation,
+  useDeleteOneProductMutation,
   useDeleteAllProductsMutation,
-
-  // get scaner data API =>
-
-  useGetScanerDataMutation,
-
-  // cridit API =>
-
-  useGetAllCriditQuery,
-  useCriditFintUserMutation,
-  useCreditUserDeleteOneMutation,
-  useCreditFindRegisterMutation,
+  useSearchPostMutation,
 } = productsApi;

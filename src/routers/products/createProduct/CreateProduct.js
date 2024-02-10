@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import "./CreateProduct.css";
 import Code from "../../../components/code/Code";
 import BtnLoader from "../../../components/btnLoader/BtnLoader";
-import axios from "../../../api";
 import { SiAddthis } from "react-icons/si";
 import { MdArrowDropDownCircle } from "react-icons/md";
+
+// PRODUCT API =>
 import {
-  useAddPostMutation,
   useGetAllProductsQuery,
+  useAddProductMutation,
 } from "../../../redux/productApi";
+
 import { toast, ToastContainer } from "react-toastify";
 
 const CreateProduct = () => {
-  const { data, error, isLoading, isSuccess } = useGetAllProductsQuery();
+  const { data, isLoading, isSuccess } = useGetAllProductsQuery();
 
-  const [addPost] = useAddPostMutation();
+  const [addProduct] = useAddProductMutation();
   const [openBarcode, setOpenBarcode] = useState(false);
   const [categoryData, setCategoryData] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
@@ -42,7 +44,7 @@ const CreateProduct = () => {
     data.quantity = +data.quantity;
     data.barcode = barcode;
 
-    await addPost(data)
+    await addProduct(data)
       .then((res) => {
         if (res.data?.innerData?.barcode) {
           toast.success("Malumotlar muofaqiyatli qo'shildi", {

@@ -2,11 +2,12 @@ import React, { memo, useEffect, useState } from "react";
 import "./ProEdit.css";
 import { MdClose } from "react-icons/md";
 import { FiPlus, FiMinus } from "react-icons/fi";
-import { useUpdatePostMutation } from "../../../redux/productApi";
+// PRODUCT API =>
+import { useProductUpdateMutation } from "../../../redux/productApi";
 import { toast, ToastContainer } from "react-toastify";
 
 const ProEdit = ({ close, data }) => {
-  const [updatePost] = useUpdatePostMutation();
+  const [productUpdate] = useProductUpdateMutation();
 
   const [brand, setBrand] = useState("");
   const [category, setCategory] = useState("");
@@ -55,7 +56,7 @@ const ProEdit = ({ close, data }) => {
       quantity: count,
     };
 
-    await updatePost({ _id: data?._id, updateData: proData })
+    await productUpdate({ _id: data?._id, updateData: proData })
       .then((res) => {
         if (res?.data?.status) {
           toast.success("Muofaqiyatli o'zgartirish kiritildi", {

@@ -3,7 +3,7 @@ import "./CriditRegister.css";
 import { Zoom, toast, ToastContainer } from "react-toastify";
 import axios from "../../api";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { useCreditFindRegisterMutation } from "../../redux/productApi";
+import { useCreditFindRegisterMutation } from "../../redux/criditApi";
 
 const CriditRegister = ({ close }) => {
   const [idNumber, setIdNumber] = useState("");
@@ -26,21 +26,7 @@ const CriditRegister = ({ close }) => {
     let value = Object.fromEntries(creditData);
     value.phone = +value.phone;
     value.passport = idNumber;
-    if (
-      value.firstname === "" ||
-      value.lastname === "" ||
-      value.address === "" ||
-      value.phone === "" ||
-      value.passport === "" ||
-      value.data === ""
-    ) {
-      return toast.warn("Inputlar ichini toldiring", {
-        transition: Zoom,
-        autoClose: 2000,
-        closeButton: false,
-        hideProgressBar: true,
-      });
-    }
+
     axios
       .post("/creditUser/create", value)
       .then((res) => {
@@ -99,12 +85,15 @@ const CriditRegister = ({ close }) => {
                   <div className="form_find_inputs">
                     <input
                       name="passport"
+                      maxLength={9}
+                      required
                       type="text"
                       placeholder="Passport raqami"
                       onChange={(e) => handleInputChange(e)}
                     />
                     <input
                       name="phone"
+                      required
                       type="number"
                       placeholder="Telefon raqami"
                     />
@@ -117,25 +106,39 @@ const CriditRegister = ({ close }) => {
                 <form onSubmit={sendData}>
                   <h1>Nasiya savdo</h1>
                   <div className="form_inputs">
-                    <input name="firstname" type="text" placeholder="Ismi" />
+                    <input
+                      required
+                      name="firstname"
+                      type="text"
+                      placeholder="Ismi"
+                    />
                     <input
                       name="lastname"
+                      required
                       type="text"
                       placeholder="Familiyasi"
                     />
-                    <input name="address" type="text" placeholder="Manzili" />
+                    <input
+                      required
+                      name="address"
+                      type="text"
+                      placeholder="Manzili"
+                    />
                     <input
                       name="phone"
+                      required
                       type="number"
                       placeholder="Telefon raqami"
                     />
                     <input
                       name="passport"
+                      required
+                      maxLength={9}
                       type="text"
                       placeholder="Passport raqami"
                       onChange={(e) => handleInputChange(e)}
                     />
-                    <input type="date" name="data" />
+                    <input required type="date" name="data" />
                   </div>
                   <button type="submit">Saqlash</button>
                 </form>

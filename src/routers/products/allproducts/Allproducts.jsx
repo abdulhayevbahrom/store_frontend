@@ -1,23 +1,23 @@
 import "./allProducts.css";
 import { useState, useEffect, memo } from "react";
-import axios from "../../../api";
 import { FaTrash, FaEdit, FaMinus } from "react-icons/fa";
 import ProEdit from "../proEdit/ProEdit";
+import { toast, ToastContainer } from "react-toastify";
+import emptyData from "../../../assets/notFoundImg.jpeg";
+
+// PRODUCT API
 import {
   useGetAllProductsQuery,
-  useUpdatePostMutation,
-  useDeletePostMutation,
+  useProductUpdateMutation,
+  useDeleteOneProductMutation,
   useSearchPostMutation,
   useDeleteAllProductsMutation,
 } from "../../../redux/productApi";
-import { toast, ToastContainer } from "react-toastify";
-
-import emptyData from "../../../assets/notFoundImg.jpeg";
 
 function Allproducts() {
   const { data, error } = useGetAllProductsQuery();
-  const [updatePost] = useUpdatePostMutation();
-  const [deletePost, { isLoading, isSuccess }] = useDeletePostMutation();
+  const [productUpdate] = useProductUpdateMutation();
+  const [deleteOneProduct, { isSuccess }] = useDeleteOneProductMutation();
   const [searchPost] = useSearchPostMutation();
   const [deleteAllProducts] = useDeleteAllProductsMutation();
 
@@ -48,7 +48,7 @@ function Allproducts() {
     let clientConfirm = window.confirm("Malumotni o'chirishga rozimisiz");
 
     clientConfirm &&
-      (await deletePost(id)
+      (await deleteOneProduct(id)
         .then((res) => {
           if (res?.data?.msg === "product is deleted") {
             isSuccess &&
@@ -64,7 +64,7 @@ function Allproducts() {
   }
 
   async function proEdit(data) {
-    await updatePost(data)
+    await productUpdate(data)
       .then((res) => {
         if (res?.data?.status) {
           setUpdateData(res?.data?.innerData);
